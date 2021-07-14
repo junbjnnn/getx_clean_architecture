@@ -1,0 +1,7 @@
+targets:
+  $default:
+    builders:
+      dart_json_mapper:
+        generate_for:
+          # here should be listed entry point files having 'void main()' function
+          - lib/main.dart
