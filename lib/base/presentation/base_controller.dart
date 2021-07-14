@@ -1,6 +1,20 @@
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
-class BaseController extends SuperController {
+class BaseController<T> extends SuperController {
+  late final T input;
+
+  @override
+  void onInit() {
+    super.onInit();
+    input = Get.arguments;
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+  }
+
   @override
   void onDetached() {}
 

@@ -1,3 +1,4 @@
+import 'package:catcher/catcher.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,12 +10,23 @@ import 'main.mapper.g.dart' show initializeJsonMapper;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  initializeJsonMapper();
+
   await Firebase.initializeApp();
   await GetStorage.init();
   await AppConfig.loadEnv();
-  initializeJsonMapper();
 
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  final CatcherOptions debugOptions = CatcherOptions(PageReportMode(), [
+    ConsoleHandler(),
+  ]);
+  final CatcherOptions releaseOptions = CatcherOptions(PageReportMode(), []);
 
-  runApp(MyApp());
+  Catcher(
+    runAppFunction: () {
+      runApp(const MyApp());
+    },
+    debugConfig: debugOptions,
+    releaseConfig: releaseOptions,
+  );
 }

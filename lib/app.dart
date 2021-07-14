@@ -1,16 +1,19 @@
+import 'package:catcher/catcher.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:int_quest/l10n/generated/l10n.dart';
 import 'package:int_quest/utils/config/app_binding.dart';
 import 'package:int_quest/utils/config/app_route.dart';
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return GetCupertinoApp(
+      navigatorKey: Catcher.navigatorKey,
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
@@ -20,13 +23,9 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      initialRoute: AppRoute.routeLoginScreen(),
+      initialRoute: AppRoute.routeExampleLoginScreen,
       initialBinding: AppBinding(),
-      getPages: AppRoute.generateGetPages(),
+      getPages: AppRoute.generateGetPages,
     );
   }
 }

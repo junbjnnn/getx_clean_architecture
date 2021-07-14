@@ -8,7 +8,7 @@ class ConnectivityService extends GetxService {
   @override
   void onInit() async {
     super.onInit();
-    var result = await Connectivity().checkConnectivity();
+    final result = await Connectivity().checkConnectivity();
     if (result == ConnectivityResult.none) {
       isShowingDialog = true;
       showDialog();
@@ -29,7 +29,7 @@ class ConnectivityService extends GetxService {
 
   void showDialog() {
     Get.dialog(
-      CupertinoAlertDialog(
+      const CupertinoAlertDialog(
         title: Text(
           'Please turn on network connection to continue using this app',
         ),

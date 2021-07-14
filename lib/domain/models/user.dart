@@ -2,58 +2,47 @@ import 'package:dart_json_mapper/dart_json_mapper.dart';
 
 @jsonSerializable
 class User {
-  @JsonProperty(name: 'id')
+  @JsonProperty()
   String? id;
 
-  @JsonProperty(name: 'firstName')
+  @JsonProperty()
   String? firstName;
 
-  @JsonProperty(name: 'lastName')
+  @JsonProperty()
   String? lastName;
 
-  @JsonProperty(name: 'email')
+  @JsonProperty()
   String? email;
 
-  @JsonProperty(name: 'phoneNumber')
+  @JsonProperty()
   String? phoneNumber;
 
-  @JsonProperty(name: 'avatar')
+  @JsonProperty()
   String? avatar;
 
-  @JsonProperty(name: 'jobDescription')
+  @JsonProperty()
   String? jobDescription;
 
-  @JsonProperty(name: 'allowShareInfo')
+  @JsonProperty()
   bool allowShareInfo = true;
 
-  @JsonProperty(name: 'isActive')
+  @JsonProperty()
   bool isActive = true;
 
-  @JsonProperty(name: 'deactiveTime')
+  @JsonProperty()
   DateTime? deactiveTime;
 
-  @JsonProperty(name: 'gender')
+  @JsonProperty()
   String? gender;
 
-  List<String> _fcmTokens = [];
-
-  @JsonProperty(name: 'fcmTokens')
-  void setLastName(dynamic value) {
-    _fcmTokens = value;
-  }
-
-  @JsonProperty(name: 'fcmTokens')
-  List<String> getFcmTokens() => _fcmTokens;
-  // List<String> get fcmTokens => _fcmTokens;
+  @JsonProperty()
+  List<String> fcmTokens = [];
 
   //Only for locally
   bool isDeleted = false;
 
-  @JsonProperty(converterParams: {'format': 'MM-dd-yyyy H:m:s'})
-  DateTime? lastPromotionDate = DateTime(2008, 05, 13, 22, 33, 44);
-
   @JsonProperty(converterParams: {'format': 'MM/dd/yyyy'})
-  DateTime? hireDate = DateTime(2003, 02, 28);
+  DateTime? createdDate1;
 
   //https://pub.dev/packages/dart_json_mapper#custom-types
   // custom type

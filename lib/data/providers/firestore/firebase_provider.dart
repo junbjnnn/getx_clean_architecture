@@ -7,7 +7,7 @@ class FirestoreProvider {
 
   FirestoreProvider() {
     print("init FirestoreProvider");
-    FirebaseFirestore.instance.settings = Settings(
+    FirebaseFirestore.instance.settings = const Settings(
       persistenceEnabled: true,
       cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
     );
@@ -21,7 +21,7 @@ extension BaseRequestFirestore on FirestoreProvider {
       return doc.mapObject<T>();
     } catch (e) {
       // TODO: Hanlde AppException
-      throw e;
+      rethrow;
     }
   }
 
@@ -31,7 +31,7 @@ extension BaseRequestFirestore on FirestoreProvider {
       return snapshot.map((event) => event.mapObject<T>());
     } catch (e) {
       // TODO: Hanlde AppException
-      throw e;
+      rethrow;
     }
   }
 
@@ -39,12 +39,12 @@ extension BaseRequestFirestore on FirestoreProvider {
     String collectionPath,
   ) async {
     try {
-      QuerySnapshot<Map<String, dynamic>> collection =
+      final QuerySnapshot<Map<String, dynamic>> collection =
           await _firestore.collection(collectionPath).get();
       return collection.mapList<T>();
     } catch (e) {
       // TODO: Hanlde AppException
-      throw e;
+      rethrow;
     }
   }
 
@@ -55,7 +55,7 @@ extension BaseRequestFirestore on FirestoreProvider {
       return snapshot.map((event) => event.mapList<T>());
     } catch (e) {
       // TODO: Hanlde AppException
-      throw e;
+      rethrow;
     }
   }
 
@@ -64,7 +64,7 @@ extension BaseRequestFirestore on FirestoreProvider {
       await _firestore.doc(docPath).set(JsonMapper.toMap(object)!);
     } catch (e) {
       // TODO: Hanlde AppException
-      throw e;
+      rethrow;
     }
   }
 
@@ -79,7 +79,7 @@ extension BaseRequestFirestore on FirestoreProvider {
           .then((value) => value.mapObject<T>());
     } catch (e) {
       // TODO: Hanlde AppException
-      throw e;
+      rethrow;
     }
   }
 
@@ -88,7 +88,7 @@ extension BaseRequestFirestore on FirestoreProvider {
       await _firestore.doc(path).update(JsonMapper.toMap(object)!);
     } catch (e) {
       // TODO: Hanlde AppException
-      throw e;
+      rethrow;
     }
   }
 
@@ -96,7 +96,7 @@ extension BaseRequestFirestore on FirestoreProvider {
     try {
       await _firestore.doc(path).delete();
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:get_storage/get_storage.dart';
 
 class StorageKey {
-  static final String keyUserUid = 'user_uid';
+  static const String keyUserUid = 'user_uid';
 }
 
 class StorageProvider {

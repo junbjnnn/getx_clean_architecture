@@ -7,15 +7,14 @@ extension MappableDocumentSnapshot on DocumentSnapshot<Map<String, dynamic>> {
       return null;
     }
     final data = this.data();
-    data!['id'] = this.id;
+    data!['id'] = id;
     return JsonMapper.fromMap<T>(data);
   }
 }
 
 extension MappableQuerySnapshot on QuerySnapshot<Map<String, dynamic>> {
   List<T> mapList<T>() {
-    return this
-        .docs
+    return docs
         .map((doc) => doc.mapObject<T>())
         .where((e) => e != null)
         .map((e) => e!)

@@ -51,24 +51,22 @@ class BaseState<T> extends GetxController with StateMixin<T> {
     return obx(
       (value) {
         if (status.isSuccess) {
-          return onSuccess != null ? onSuccess(value) : SizedBox.shrink();
+          return onSuccess != null ? onSuccess(value) : const SizedBox.shrink();
         }
         if (status.isLoadingMore) {
-          return onLoadingMore != null ? onLoadingMore : SizedBox.shrink();
+          return onLoadingMore ?? const SizedBox.shrink();
         }
         // other custom state
-        return SizedBox.shrink();
+        return const SizedBox.shrink();
       },
-      onError: onError != null
-          ? onError
-          : (_) {
-              return SizedBox.shrink();
-            },
-      onLoading: onLoading != null
-          ? onLoading
-          : const Center(
-              child: CupertinoActivityIndicator(),
-            ),
+      onError: onError ??
+          (_) {
+            return const SizedBox.shrink();
+          },
+      onLoading: onLoading ??
+          const Center(
+            child: CupertinoActivityIndicator(),
+          ),
       onEmpty: onEmpty,
     );
   }

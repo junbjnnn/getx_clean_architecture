@@ -9,15 +9,15 @@ class UserProvider extends FirestoreProvider {
     try {
       return getDocumentAt("$_userPath/$id");
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
   Future<List<User>> getAllUser() {
     try {
-      return getCollectionAt("$_userPath");
+      return getCollectionAt(_userPath);
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 }

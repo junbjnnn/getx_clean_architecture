@@ -1,9 +1,10 @@
 import 'package:get/get.dart';
 import 'package:int_quest/data/providers/firestore/user_provider.dart';
 import 'package:int_quest/data/providers/local/storage_provider.dart';
-import 'package:int_quest/data/repositories_impl/auth_repo_impl.dart';
+import 'package:int_quest/data/repositories_impl/example_auth_repo_impl.dart';
 import 'package:int_quest/utils/service/auth_service.dart';
 import 'package:int_quest/utils/service/connectivity_service.dart';
+import 'package:int_quest/utils/service/log_service.dart';
 
 class AppBinding extends Bindings {
   @override
@@ -23,10 +24,11 @@ class AppBinding extends Bindings {
   }
 
   void injectRepository() {
-    Get.put(AuthRepoImpl());
+    Get.put(ExampleAuthRepoImpl());
   }
 
   void injectService() {
+    Get.put(LogService());
     Get.put(AuthService());
     Get.put(ConnectivityService());
   }

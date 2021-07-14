@@ -6,10 +6,6 @@ class RegisterEmailInput {
   RegisterEmailInput(this.username, this.password);
   final String username;
   final String password;
-
-  RegisterEmailInput toRequest() {
-    return RegisterEmailInput(username, password);
-  }
 }
 
 class RegisterByEmailUseCase extends UseCase<User, RegisterEmailInput> {
@@ -19,7 +15,7 @@ class RegisterByEmailUseCase extends UseCase<User, RegisterEmailInput> {
 
   @override
   Future<User> buildUseCase(RegisterEmailInput? input) {
-    return authRepo.registerByEmail(input!.toRequest());
+    return authRepo.registerByEmail(input!);
   }
 }
 

@@ -4,12 +4,9 @@ import 'package:int_quest/domain/repositories/auth_repo.dart';
 
 class LoginEmailInput {
   LoginEmailInput(this.username, this.password);
+
   final String username;
   final String password;
-
-  LoginEmailInput toRequest() {
-    return LoginEmailInput(username, password);
-  }
 }
 
 class LoginByEmailUseCase extends UseCase<User, LoginEmailInput> {
@@ -19,7 +16,7 @@ class LoginByEmailUseCase extends UseCase<User, LoginEmailInput> {
 
   @override
   Future<User> buildUseCase(LoginEmailInput? input) {
-    return authRepo.loginByEmail(input!.toRequest());
+    return authRepo.loginByEmail(input!);
   }
 }
 

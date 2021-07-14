@@ -26,8 +26,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  cupertino_icons: ^1.0.2
-  dart_json_mapper: ^2.1.2
+  # GetX
   get: ^4.1.4
   get_storage: ^2.0.2
 
@@ -40,18 +39,25 @@ dependencies:
   firebase_messaging: ^10.0.3
 
   # Widget
-  adaptive_dialog:
+  flutter_platform_widgets: ^1.9.5
 
   # Ulti
-  jiffy:
-  permission_handler:
+  cupertino_icons: ^1.0.2
+  dart_json_mapper: ^2.1.2
+  jiffy: ^4.1.0
+  permission_handler: ^8.1.2
   flutter_dotenv: ^5.0.0
   package_info_plus: ^1.0.3
   connectivity_plus: ^1.0.5
+  catcher: ^0.6.7
+  functional_widget_annotation: ^0.9.0
+  logger: ^1.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  functional_widget: ^0.9.0+2
+  flutter_lints: ^1.0.4
   build_runner: ^2.0.5
 
 # For information on the generic Dart part of this file, see the
