@@ -1,30 +1,63 @@
 import 'dart:async';
 
+import 'package:int_quest/utils/service/log_service.dart';
+
 import 'base_observer.dart';
 
-abstract class UseCase<T, Input> {
-  late CompositeSubscription _disposables;
-
-  UseCase() {
-    _disposables = CompositeSubscription();
-  }
-
-  Future<Stream<T>> _buildUseCaseStream(Input? input) async {
+abstract class UseCaseO<T> extends _UseCase<void, T> {
+  @override
+  Future<Stream<T>> _buildUseCaseStream(void _) async {
     final controller = StreamController<T>();
     try {
-      final value = await buildUseCase(input);
+      final value = await build();
       controller.add(value);
       controller.close();
     } catch (e) {
-      print(e);
+      L.error(e);
       controller.addError(e);
     }
     return controller.stream;
   }
 
-  Future<T> buildUseCase(Input? input);
+  Future<void> execute({Observer<T>? observer}) async {
+    return _execute(observer: observer);
+  }
 
-  Future<void> execute({Observer<T>? observer, Input? input}) async {
+  Future<T> build();
+}
+
+abstract class UseCaseIO<Input, T> extends _UseCase<Input, T> {
+  @override
+  Future<Stream<T>> _buildUseCaseStream(Input? input) async {
+    final controller = StreamController<T>();
+    try {
+      final value = await build(input!);
+      controller.add(value);
+      controller.close();
+    } catch (e) {
+      L.error(e);
+      controller.addError(e);
+    }
+    return controller.stream;
+  }
+
+  Future<void> execute({Observer<T>? observer, required Input input}) async {
+    return _execute(observer: observer, input: input);
+  }
+
+  Future<T> build(Input input);
+}
+
+abstract class _UseCase<Input, T> {
+  late _CompositeSubscription _disposables;
+
+  _UseCase() {
+    _disposables = _CompositeSubscription();
+  }
+
+  Future<Stream<T>> _buildUseCaseStream(Input? input);
+
+  Future<void> _execute({Observer<T>? observer, Input? input}) async {
     observer?.onSubscribe();
     final StreamSubscription subscription =
         (await _buildUseCaseStream(input)).listen(
@@ -47,13 +80,13 @@ abstract class UseCase<T, Input> {
 
   void _addSubscription(StreamSubscription subscription) {
     if (_disposables.isDisposed) {
-      _disposables = CompositeSubscription();
+      _disposables = _CompositeSubscription();
     }
     _disposables.add(subscription);
   }
 }
 
-class CompositeSubscription {
+class _CompositeSubscription {
   bool _isDisposed = false;
 
   final List<StreamSubscription<dynamic>> _subscriptionsList = [];
@@ -120,9 +153,9 @@ class CompositeSubscription {
   void resumeAll() => _subscriptionsList.forEach((it) => it.resume());
 }
 
-/// Extends the [StreamSubscription] class with the ability to be added to [CompositeSubscription] container.
+/// Extends the [StreamSubscription] class with the ability to be added to [_CompositeSubscription] container.
 extension AddToCompositeSubscriptionExtension<T> on StreamSubscription<T> {
   /// Adds this subscription to composite container for subscriptions.
-  void addTo(CompositeSubscription compositeSubscription) =>
-      compositeSubscription.add(this);
+  void addTo(_CompositeSubscription _compositeSubscription) =>
+      _compositeSubscription.add(this);
 }

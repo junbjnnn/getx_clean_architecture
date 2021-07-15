@@ -1,11 +1,11 @@
-import 'package:int_quest/domain/models/user.dart';
+import 'package:int_quest/data/models/user_model.dart';
 
 import 'firebase_provider.dart';
 
 class UserProvider extends FirestoreProvider {
   final String _userPath = "/users";
 
-  Future<User?> getUser(String id) {
+  Future<UserModel?> getUser(String id) {
     try {
       return getDocumentAt("$_userPath/$id");
     } catch (e) {
@@ -13,7 +13,7 @@ class UserProvider extends FirestoreProvider {
     }
   }
 
-  Future<List<User>> getAllUser() {
+  Future<List<UserModel>> getAllUser() {
     try {
       return getCollectionAt(_userPath);
     } catch (e) {

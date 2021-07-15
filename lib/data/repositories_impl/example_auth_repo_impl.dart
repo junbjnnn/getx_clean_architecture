@@ -1,10 +1,13 @@
+import 'package:dart_json_mapper/dart_json_mapper.dart';
 import 'package:get/get.dart';
+import 'package:int_quest/data/models/user_model.dart';
 import 'package:int_quest/data/providers/firestore/user_provider.dart';
 import 'package:int_quest/data/providers/local/storage_provider.dart';
-import 'package:int_quest/domain/models/user.dart';
+import 'package:int_quest/domain/entities/user.dart';
 import 'package:int_quest/domain/repositories/auth_repo.dart';
 import 'package:int_quest/domain/usecases/auth/login_uc.dart';
 import 'package:int_quest/domain/usecases/auth/register_uc.dart';
+import 'package:int_quest/utils/service/log_service.dart';
 
 class ExampleAuthRepoImpl implements AuthRepo {
   final StorageProvider _storageProvider = Get.find();
@@ -26,11 +29,11 @@ class ExampleAuthRepoImpl implements AuthRepo {
 
   @override
   Future<User> loginByGoogle() async {
-    final User? u = await _userProvider.getUser("5vtCd1riuSP2wQaYSfWB");
-    print(u);
-    final List<User> us = await _userProvider.getAllUser();
-    print(us);
-    return u!;
+    final UserModel? u = await _userProvider.getUser("5vtCd1riuSP2wQaYSfWB");
+    L.debug(u);
+    final List<UserModel> us = await _userProvider.getAllUser();
+    L.debug(us);
+    return JsonMapper.deserialize<User>(JsonMapper.serialize(u))!;
 
     // TODO: implement loginByGoogle
     throw UnimplementedError();

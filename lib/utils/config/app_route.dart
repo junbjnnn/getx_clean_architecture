@@ -15,7 +15,8 @@ class AppRoute {
   // Example
   static String routeExampleLoginScreen = '/example_login';
   static String routeExampleHomeScreen = '/example_home';
-  static String routeExampleHomeDetailScreen = '$routeExampleHomeScreen/detail';
+  static String routeExampleHomeDetailScreen =
+      '$routeExampleHomeScreen$routeDetailScreen';
 
   static List<GetPage> generateGetPages = [
     GetPage(

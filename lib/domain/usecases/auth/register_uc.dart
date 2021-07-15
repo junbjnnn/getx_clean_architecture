@@ -1,5 +1,5 @@
 import 'package:int_quest/base/domain/base_usecase.dart';
-import 'package:int_quest/domain/models/user.dart';
+import 'package:int_quest/domain/entities/user.dart';
 import 'package:int_quest/domain/repositories/auth_repo.dart';
 
 class RegisterEmailInput {
@@ -8,24 +8,24 @@ class RegisterEmailInput {
   final String password;
 }
 
-class RegisterByEmailUseCase extends UseCase<User, RegisterEmailInput> {
+class RegisterByEmailUseCase extends UseCaseIO<RegisterEmailInput, User> {
   RegisterByEmailUseCase(this.authRepo);
 
   final AuthRepo authRepo;
 
   @override
-  Future<User> buildUseCase(RegisterEmailInput? input) {
-    return authRepo.registerByEmail(input!);
+  Future<User> build(RegisterEmailInput input) {
+    return authRepo.registerByEmail(input);
   }
 }
 
-class SendEmailVerificationUseCase extends UseCase<bool, void> {
+class SendEmailVerificationUseCase extends UseCaseO<bool> {
   SendEmailVerificationUseCase(this.authRepo);
 
   final AuthRepo authRepo;
 
   @override
-  Future<bool> buildUseCase(_) {
+  Future<bool> build() {
     return authRepo.sendEmailVerification();
   }
 }

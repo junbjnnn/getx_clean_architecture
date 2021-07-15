@@ -9,6 +9,11 @@ class ExampleLoginBinding extends Bindings {
   void dependencies() {
     Get.lazyPut(() => LoginByGoogleUseCase(Get.find<ExampleAuthRepoImpl>()));
     Get.lazyPut(() => LoginByEmailUseCase(Get.find<ExampleAuthRepoImpl>()));
-    Get.lazyPut(() => ExampleLoginController());
+    Get.lazyPut(
+      () => ExampleLoginController(
+        loginEmailUseCase: Get.find(),
+        loginGoogleUseCase: Get.find(),
+      ),
+    );
   }
 }

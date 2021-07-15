@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:int_quest/data/providers/firestore/user_provider.dart';
 import 'package:int_quest/data/providers/local/storage_provider.dart';
-import 'package:int_quest/domain/models/user.dart';
+import 'package:int_quest/domain/entities/user.dart';
 import 'package:int_quest/domain/repositories/auth_repo.dart';
 import 'package:int_quest/domain/usecases/auth/login_uc.dart';
 import 'package:int_quest/domain/usecases/auth/register_uc.dart';

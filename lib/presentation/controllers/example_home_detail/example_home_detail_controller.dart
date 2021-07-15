@@ -17,11 +17,11 @@ class ExampleHomeDetailController
   }
 
   void testLog() {
-    L.v("Verbose log");
-    L.d("Debug log");
-    L.i("Info log");
-    L.w("Warning log");
-    L.e("Error log");
+    L.verbose("Verbose log");
+    L.debug("Debug log");
+    L.info("Info log");
+    L.warning("Warning log");
+    L.error("Error log");
     L.wtf("What a terrible failure log");
   }
 }

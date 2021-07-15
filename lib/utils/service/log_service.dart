@@ -5,23 +5,23 @@ import 'package:logger/logger.dart';
 class L {
   static final LogService _logService = Get.find();
 
-  static void v(dynamic message) {
+  static void verbose(dynamic message) {
     _logService.logger.v(message);
   }
 
-  static void d(dynamic message) {
+  static void debug(dynamic message) {
     _logService.logger.d(message);
   }
 
-  static void i(dynamic message) {
+  static void info(dynamic message) {
     _logService.logger.i(message);
   }
 
-  static void w(dynamic message) {
+  static void warning(dynamic message) {
     _logService.logger.w(message);
   }
 
-  static void e(dynamic message) {
+  static void error(dynamic message) {
     _logService.logger.e(message);
   }
 

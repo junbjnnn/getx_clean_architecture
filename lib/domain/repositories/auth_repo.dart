@@ -1,4 +1,4 @@
-import 'package:int_quest/domain/models/user.dart';
+import 'package:int_quest/domain/entities/user.dart';
 import 'package:int_quest/domain/usecases/auth/login_uc.dart';
 import 'package:int_quest/domain/usecases/auth/register_uc.dart';
 
