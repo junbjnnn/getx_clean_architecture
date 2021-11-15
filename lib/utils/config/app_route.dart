@@ -8,7 +8,7 @@ import 'package:int_quest/presentation/views/example_home_detail/example_home_de
 import 'package:int_quest/presentation/views/example_login/example_login_page.dart';
 import 'package:int_quest/utils/service/auth_service.dart';
 
-class AppRoute {
+ class AppRoute {
   static String routeHomeScreen = '/';
   static String routeDetailScreen = '/detail';
 
