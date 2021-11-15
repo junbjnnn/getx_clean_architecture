@@ -38,7 +38,7 @@ class LoginController extends BaseController {
         },
         onSuccess: (_) {
           loginState.onSuccess();
-          Get.offAllNamed(AppRoute.routeHomeScreen());
+          Get.offAllNamed(AppRoute.routeHomeScreen);
         },
         onError: (dynamic e) {
           loginState.onError(e.toString());
