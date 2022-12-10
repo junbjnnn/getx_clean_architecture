@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by JB on 10/18/22.
+  
+*/
+"NSCameraUsageDescription" = "設定でアプリがカメラにアクセスできるようにしてください。";
+"NSPhotoLibraryUsageDescription" = "アバターをアップロードには、写真へのアクセスが必要です。";

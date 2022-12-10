@@ -1,8 +1,41 @@
+import 'package:jbbase_app/base/data/local/local_storage.dart';
+import 'package:jbbase_app/features/authentication/domain/repositories/auth_repo.dart';
+import 'package:jbbase_app/utils/config/app_navigation.dart';
 import 'package:get/get.dart';
-import 'package:int_quest/data/providers/local/storage_provider.dart';
 
-class AuthService extends GetxService {
-  final StorageProvider _storageProvider = Get.find();
+abstract class AuthService extends GetxService {
+  String get email;
+  void setEmail(String email);
 
-  bool hasLogin() => true;
+  Future<bool> isAuthenticated();
+  Future<void> logout();
+}
+
+class AuthServiceImpl extends AuthService {
+  final LocalStorage _localStorage = Get.find();
+
+  var _email = '';
+
+  @override
+  String get email => _email;
+
+  @override
+  void setEmail(String email) {
+    _email = email;
+  }
+
+  @override
+  Future<bool> isAuthenticated() async {
+    return await _localStorage.userToken != null;
+  }
+
+  @override
+  Future<void> logout() async {
+    if (await isAuthenticated()) {
+      await Get.find<AuthRepo>().logout();
+    }
+    await _localStorage.removeAllData();
+
+    N.toLandingPage();
+  }
 }

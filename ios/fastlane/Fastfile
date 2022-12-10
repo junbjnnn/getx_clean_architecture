@@ -1,0 +1,193 @@
+require './Constants/Constants'
+require './../../common/Managers/BuildManager'
+require './../../common/Managers/CertificateManager'
+require './../../common/Managers/CodeSigningManager'
+require './../../common/Managers/KeychainManager'
+require './../../common/Managers/ProvisioningManager'
+require './../../common/Managers/VersioningManager'
+
+build_manager = BuildManager.new(fastlane: self)
+
+certificate_manager = CertificateManager.new(
+  fastlane: self,
+  keychain_name: "#{Constants.SDK_NAME}.keychain-db"
+)
+
+code_signing_manager = CodeSigningManager.new(fastlane: self)
+
+keychain_manager = KeychainManager.new(
+  fastlane: self,
+  keychain_name: "#{Constants.SDK_NAME}.keychain-db"
+)
+
+provisioning_manager = ProvisioningManager.new(fastlane: self)
+
+versioning_manager = VersioningManager.new(fastlane: self)
+
+default_platform(:ios)
+
+sdk_name = Constants.SDK_NAME
+keychain_name = "#{sdk_name}.keychain-db"
+build_path_adhoc = Constants.BUILD_PATH_ADHOC
+build_path_appstore = Constants.BUILD_PATH_APPSTORE
+
+platform :ios do
+  desc "Upload ipa to appcenter and testflight"
+  lane :build_sample do |options|
+    ## before install ##
+    init_flutter()
+
+    ## init pod ##
+    init_pod()
+
+    ## create keychain ##
+    keychain_manager.create()
+
+    ## bump version ##
+    versioning_manager.bump_app_version_ios(
+      api_token: options[:appcenter_api_token],
+      owner_name: options[:appcenter_owner_name],
+      app_name: options[:appcenter_app_name_ios],
+      target_name: sdk_name
+    )
+
+    ## import certificate ##
+    certificate_manager.import(
+      certificate_path: options[:apple_certificate_path],
+      certificate_password: options[:apple_certificate_password]
+    )
+
+    ## unlock an existing keychain ##
+    keychain_manager.unlock()
+
+    prepare_ipa_file_to_adhoc(options)
+
+    prepare_ipa_file_to_appstore(options)
+
+    ## upload to appcenter & testflight ##
+    upload_ipa_file(options)
+
+    ## delete keychain ##
+    keychain_manager.delete()
+  end
+
+  desc "Init flutter"
+  private_lane :init_flutter do
+    sh("cd ./../../common/codedeploy_scripts && bash before_install.sh")
+  end
+
+  desc "Init pod"
+  private_lane :init_pod do
+    ENV["GEM_PATH"] = "#{Dir.home}/.gem"
+    sh("cd ./.. && pod deintegrate && pod install")
+  end
+
+  desc "Prepare ipa file to adhoc"
+  private_lane :prepare_ipa_file_to_adhoc do |options|
+    ## init provisioning profile adhoc ##
+    provisioning_manager.get_and_install(
+      is_adhoc: true,
+      team_id: options[:apple_team_id],
+      provisioning_name: options[:apple_profile_name],
+      app_identifier: options[:apple_profile_bundle_id],
+      filename: options[:provision_file_name],
+      output_path: "#{Dir.home}/Provisions/#{sdk_name.downcase}",
+      key_id: options[:apple_connect_key_id],
+      issuer_id: options[:apple_connect_issuer_id],
+      key_content: options[:apple_connect_api_key_base64]
+    )
+
+    ## upload code signing setting adhoc ##
+    code_signing_manager.update_code_signing_settings(
+      path: "#{sdk_name}.xcodeproj",
+      team_id: options[:apple_team_id],
+      profile_name: options[:apple_profile_name],
+      bundle_identifier: options[:apple_profile_bundle_id],
+      targets: [sdk_name],
+      build_configurations: ["Release-#{options[:env]}", "Debug-#{options[:env]}", "Profile-#{options[:env]}"],
+      code_sign_identity: Constants.CODE_SIGN_INDENTITY_ADDHOC,
+    )
+
+    clear_derived_data()
+
+    ## build adhoc ##
+    build_manager.generate_ipa(
+      scheme: options[:env],
+      export_method: Constants.METHOD_ADHOC,
+      app_identifier: options[:apple_profile_bundle_id],
+      profile_name: options[:apple_profile_name],
+      team_id: options[:apple_team_id],
+      configuration: "Release-#{options[:env]}",
+      build_path: build_path_adhoc,
+      product_name: sdk_name
+    )
+  end
+
+  desc "Prepare ipa file to app-store"
+  private_lane :prepare_ipa_file_to_appstore do |options|
+    ## init provisioning profile app-store ##
+    provisioning_manager.get_and_install(
+      is_adhoc: false,
+      team_id: options[:apple_team_id],
+      provisioning_name: options[:apple_profile_name],
+      app_identifier: options[:apple_profile_bundle_id],
+      filename: options[:provision_file_name],
+      output_path: "#{Dir.home}/Provisions/#{sdk_name.downcase}",
+      key_id: options[:apple_connect_key_id],
+      issuer_id: options[:apple_connect_issuer_id],
+      key_content: options[:apple_connect_api_key_base64]
+    )
+
+    ## upload code signing setting app-store ##
+    code_signing_manager.update_code_signing_settings(
+      path: "#{sdk_name}.xcodeproj",
+      team_id: options[:apple_team_id],
+      profile_name: options[:apple_profile_name],
+      bundle_identifier: options[:apple_profile_bundle_id],
+      targets: [sdk_name],
+      build_configurations: ["Release-#{options[:env]}", "Debug-#{options[:env]}", "Profile-#{options[:env]}"],
+      code_sign_identity: Constants.CODE_SIGN_INDENTITY_APPSTORE,
+    )
+
+    clear_derived_data()
+
+    ## build app-store ##
+    build_manager.generate_ipa(
+      scheme: options[:env],
+      export_method: Constants.METHOD_APPSTORE,
+      app_identifier: options[:apple_profile_bundle_id],
+      profile_name: options[:apple_profile_name],
+      team_id: options[:apple_team_id],
+      configuration: "Release-#{options[:env]}",
+      build_path: build_path_appstore,
+      product_name: sdk_name
+    )
+  end
+
+  desc "Upload ipa file"
+  private_lane :upload_ipa_file do |options|
+    ## upload to appcenter ##
+    appcenter_upload(
+      api_token: options[:appcenter_api_token],
+      owner_name: options[:appcenter_owner_name],
+      destinations: "Public",
+      destination_type: "group",
+      app_name: options[:appcenter_app_name_ios],
+      file: "#{build_path_adhoc}/#{sdk_name}.ipa",
+      dsym: "#{build_path_adhoc}/#{sdk_name}.app.dSYM.zip",
+      notify_testers: true,
+      release_notes: options[:release_notes]
+    )
+
+    ## upload to testflight ##
+    pilot(
+      apple_id: options[:apple_team_id],
+      app_identifier: options[:apple_profile_bundle_id],
+      skip_waiting_for_build_processing: true,
+      skip_submission: true,
+      distribute_external: false,
+      notify_external_testers: false,
+      ipa: "#{build_path_appstore}/#{sdk_name}.ipa"
+    )
+  end
+end

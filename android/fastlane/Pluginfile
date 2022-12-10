@@ -1,0 +1,2 @@
+gem 'fastlane-plugin-appcenter'
+gem 'fastlane-plugin-increment_version_code'

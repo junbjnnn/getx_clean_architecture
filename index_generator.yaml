@@ -1,0 +1,44 @@
+index_generator:
+  exclude:
+    - "**.g.dart"
+    - "{_,**/_}*.dart"
+  # Define the paths of the folders in which to generate the index files
+  indexes:
+    # Base
+    - path: lib/base/data
+    - path: lib/base/domain
+      exports:
+        - package: package:get/get.dart
+    - path: lib/base/presentation
+    - path: lib/base
+      include:
+        - data/data.dart
+        - domain/domain.dart
+        - presentation/presentation.dart
+    # Feature / Tabbar
+    - path: lib/features/tabbar/presentation
+    - path: lib/features/tabbar
+      include:
+        - presentation/presentation.dart
+    # Feature / Authentication
+    - path: lib/features/authentication/data
+    - path: lib/features/authentication/domain
+      exports:
+        - package: package:get/get.dart
+    - path: lib/features/authentication/presentation
+    - path: lib/features/authentication
+      include:
+        - data/data.dart
+        - domain/domain.dart
+        - presentation/presentation.dart
+    # Feature / Example
+    - path: lib/features/example/data
+    - path: lib/features/example/domain
+      exports:
+        - package: package:get/get.dart
+    - path: lib/features/example/presentation
+    - path: lib/features/example
+      include:
+        - data/data.dart
+        - domain/domain.dart
+        - presentation/presentation.dart

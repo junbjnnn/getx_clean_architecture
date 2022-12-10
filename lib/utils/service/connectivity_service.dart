@@ -1,40 +1,21 @@
+import 'package:jbbase_app/utils/service/log_service.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-class ConnectivityService extends GetxService {
-  bool isShowingDialog = false;
+abstract class ConnectivityService extends GetxService {
+  Rx<ConnectivityResult> result = ConnectivityResult.none.obs;
 
+  Future<void> listenConnectivity();
+}
+
+class ConnectivityServiceImpl extends ConnectivityService {
   @override
-  void onInit() async {
-    super.onInit();
-    final result = await Connectivity().checkConnectivity();
-    if (result == ConnectivityResult.none) {
-      isShowingDialog = true;
-      showDialog();
-    }
+  Future<void> listenConnectivity() async {
+    result.value = await Connectivity().checkConnectivity();
 
     Connectivity().onConnectivityChanged.listen((event) {
-      if (event == ConnectivityResult.none) {
-        isShowingDialog = true;
-        showDialog();
-      } else {
-        if (isShowingDialog) {
-          Get.back();
-          isShowingDialog = false;
-        }
-      }
+      result.value = event;
+      L.info(event);
     });
-  }
-
-  void showDialog() {
-    Get.dialog(
-      const CupertinoAlertDialog(
-        title: Text(
-          'Please turn on network connection to continue using this app',
-        ),
-      ),
-      barrierDismissible: false,
-    );
   }
 }

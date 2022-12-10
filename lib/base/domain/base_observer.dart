@@ -1,4 +1,9 @@
 class Observer<T> {
+  Function? _onSubscribe;
+  Function? _onSuccess;
+  Function? _onError;
+  Function? _onCompleted;
+
   Observer({
     Function? onSubscribe,
     Function(T)? onSuccess,
@@ -10,11 +15,6 @@ class Observer<T> {
     _onError = onError;
     _onCompleted = onCompleted;
   }
-
-  Function? _onSubscribe;
-  Function? _onSuccess;
-  Function? _onError;
-  Function? _onCompleted;
 
   onSubscribe() => _onSubscribe?.call();
 

@@ -1,35 +1,79 @@
-import 'package:get/get.dart';
-import 'package:int_quest/data/providers/firestore/user_provider.dart';
-import 'package:int_quest/data/providers/local/storage_provider.dart';
-import 'package:int_quest/data/repositories_impl/example_auth_repo_impl.dart';
-import 'package:int_quest/utils/service/auth_service.dart';
-import 'package:int_quest/utils/service/connectivity_service.dart';
-import 'package:int_quest/utils/service/log_service.dart';
+import 'package:dio/dio.dart';
+
+import '../../base/base.dart';
+import '../../features/authentication/authentication.dart';
+import '../service/auth_service.dart';
+import '../service/connectivity_service.dart';
+import '../service/permission_service.dart';
 
 class AppBinding extends Bindings {
   @override
   void dependencies() {
     injectStorageProvider();
-    injectFirestoreProvider();
-    injectRepository();
+    injectNetworkProvider();
     injectService();
+    injectRepository();
+    injectUseCase();
   }
 
   void injectStorageProvider() {
-    Get.put(StorageProvider());
+    Get.put(LocalStorage(), permanent: true);
   }
 
-  void injectFirestoreProvider() {
-    Get.lazyPut(() => UserProvider(), fenix: true);
-  }
-
-  void injectRepository() {
-    Get.put(ExampleAuthRepoImpl());
+  void injectNetworkProvider() {
+    Get.lazyPut(
+      () => DioBuilder(
+        ignoredToken: true,
+        options: BaseOptions(baseUrl: AppConfig.baseUrl),
+      ),
+      tag: DioBulderType.refresh.name,
+      fenix: true,
+    );
+    Get.lazyPut(
+      () => DioBuilder(
+        ignoredToken: false,
+        options: BaseOptions(baseUrl: AppConfig.baseUrl),
+        dioRefresh: Get.find<DioBuilder>(tag: DioBulderType.refresh.name),
+      ),
+      tag: DioBulderType.withToken.name,
+      fenix: true,
+    );
+    Get.lazyPut(
+      () => DioBuilder(
+        ignoredToken: true,
+        options: BaseOptions(baseUrl: AppConfig.baseUrl),
+      ),
+      tag: DioBulderType.ignoredToken.name,
+      fenix: true,
+    );
+    Get.lazyPut(
+      () => RefreshTokenAPI(Get.find<DioBuilder>(tag: DioBulderType.refresh.name)),
+      fenix: true,
+    );
+    Get.lazyPut(
+      () => AuthAPI(Get.find<DioBuilder>(tag: DioBulderType.ignoredToken.name)),
+      fenix: true,
+    );
+    Get.lazyPut(
+      () => UserAPI(Get.find<DioBuilder>(tag: DioBulderType.withToken.name)),
+      fenix: true,
+    );
   }
 
   void injectService() {
-    Get.put(LogService());
-    Get.put(AuthService());
-    Get.put(ConnectivityService());
+    Get.put(LogServiceImpl());
+    Get.put<ConnectivityService>(ConnectivityServiceImpl());
+    Get.put<PermissionService>(PermissionServiceImpl());
+    Get.put<AuthService>(AuthServiceImpl());
+    // Get.put(PushNotificationService());
+  }
+
+  void injectRepository() {
+    Get.put<AuthRepo>(AuthRepoImpl());
+    Get.put<UserRepo>(UserRepoImpl());
+  }
+
+  void injectUseCase() {
+    Get.lazyPut(() => GetUserDataUseCase(Get.find(), Get.find()), fenix: true);
   }
 }

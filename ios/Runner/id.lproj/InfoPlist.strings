@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by JB on 10/18/22.
+  
+*/
+"NSCameraUsageDescription" = "Mohon izinkan untuk mengakses Kamera pada pengaturan.";
+"NSPhotoLibraryUsageDescription" = "Aplikasi ini membutuhkan akses foto untuk mengunggah avatar.";

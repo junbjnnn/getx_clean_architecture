@@ -55,6 +55,7 @@ analysis_benchmark.json
 .packages
 .pub-cache/
 .pub/
+.fvm/flutter_sdk
 build/
 flutter_*.png
 linked_*.ds
@@ -70,7 +71,9 @@ unlinked_spec.ds
 **/android/local.properties
 **/android/**/GeneratedPluginRegistrant.java
 **/android/key.properties
+**/android/ci
 *.jks
+**/android/keystore
 
 # iOS/XCode related
 **/ios/**/*.mode1v3
@@ -101,6 +104,10 @@ unlinked_spec.ds
 **/ios/Flutter/flutter_export_environment.sh
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
+# Auto build / CI / CD
+**/ios/ci
+# Cer / provisioning
+**/ios/ios-profiles-certs
 
 # macOS
 **/macos/Flutter/GeneratedPluginRegistrant.swift
@@ -115,9 +122,10 @@ app.*.symbols
 app.*.map.json
 
 #build runner
-lib/main.mapper.g.dart
-lib/main.reflectable.dart
-test/widget_test.reflectable.dart
+*.g.dart
+*.reflectable.dart
+*.gen.dart
+lib/l10n/generated
 
 # Coverage
 coverage/
@@ -135,3 +143,9 @@ app.*.symbols
 
 # Firebase hosting cache.
 .firebase/
+node_modules/
+
+# Other platform
+test/
+web/
+windows/

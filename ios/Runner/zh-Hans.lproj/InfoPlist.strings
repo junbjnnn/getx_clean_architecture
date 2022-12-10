@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by JB on 10/18/22.
+  
+*/
+"NSCameraUsageDescription" = "请允许在设置中访问相机。";
+"NSPhotoLibraryUsageDescription" = "此应用程序需要照片访问以上传头像。";

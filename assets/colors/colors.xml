@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black_000">#000000</color>
+    <color name="black_333">#333333</color>
+    <color name="black_222">#222222</color>
+    <color name="black_4d4">#4D4D4D</color>
+
+    <color name="gray_4f4">#4F4F4F</color>
+    <color name="gray_838">#838383</color>
+    <color name="gray_828">#828282</color>
+    <color name="gray_f8f">#F8F8F8</color>
+    <color name="gray_f2f">#F2F2F2</color>
+    <color name="gray_e0e">#E0E0E0</color>
+    <color name="gray_ece">#ECECEC</color>
+    <color name="gray_bdb">#BDBDBD</color>
+    <color name="gray_c7c">#C7C7CC</color>
+
+    <color name="white_fff">#FFFFFF</color>
+    <color name="white_faf">#FAFAFA</color>
+
+    <color name="green_eaf">#EAF8E5</color>
+    <color name="green_27b">#27B86F</color>
+    <color name="green_eef">#EEFBF5</color>
+    <color name="green_4c8">#4C8539</color>
+    <color name="green_5d9">#5D9D3B</color>
+    <color name="green_5fc">#5FC652</color>
+    <color name="green_459">#459f26</color>
+    <color name="green_e8f">#E8F2C9</color>
+    <color name="green_def">#DEF693</color>
+
+    <color name="blue_007">#007AFF</color>
+
+    <color name="red_ff3">#FF3B30</color>
+    <color name="red_eb5">#EB5757</color>
+
+    <color name="orange_f29">#F2994A</color>
+    <color name="orange_ffb">#FFB762</color>
+    <color name="orange_f8e">#F8EBCD</color>
+    <color name="orange_ffe">#FFEBD3</color>
+    <color name="orange_fa9">#FA9C2D</color>
+    <color name="orange_ddb">#DDB27E</color>
+</resources>

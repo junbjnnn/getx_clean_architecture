@@ -1,56 +1,82 @@
-import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
-import 'package:int_quest/presentation/controllers/example_home/example_home_binding.dart';
-import 'package:int_quest/presentation/controllers/example_home_detail/example_home_detail_binding.dart';
-import 'package:int_quest/presentation/controllers/example_login/example_login_binding.dart';
-import 'package:int_quest/presentation/views/example_home/example_home_page.dart';
-import 'package:int_quest/presentation/views/example_home_detail/example_home_detail_page.dart';
-import 'package:int_quest/presentation/views/example_login/example_login_page.dart';
-import 'package:int_quest/utils/service/auth_service.dart';
+// ignore_for_file: non_constant_identifier_names
+import '../../features/authentication/authentication.dart';
+import '../../features/example/example.dart';
+import '../../features/tabbar/tabbar.dart';
 
 class AppRoute {
-  static String routeHomeScreen = '/';
-  static String routeDetailScreen = '/detail';
+  // Base
+  static String root = '/';
+
+  static String tabbar = '/tabbar';
+
+  static String LA10 = '/landing';
+
+  // Authentication
+  static String LO10 = '/login';
+
+  static String LO20 = '/forgot_password';
+
+  static String RE10 = '/register';
 
   // Example
-  static String routeExampleLoginScreen = '/example_login';
-  static String routeExampleHomeScreen = '/example_home';
-  static String routeExampleHomeDetailScreen =
-      '$routeExampleHomeScreen$routeDetailScreen';
+  static String SE10 = '/setting';
+
+  static String EX10 = '/example_home';
+
+  static String EX20 = '/example_home_list';
 
   static List<GetPage> generateGetPages = [
+    // Base
     GetPage(
-      name: routeExampleLoginScreen,
-      page: () => ExampleLoginPage(),
-      binding: ExampleLoginBinding(),
-      transition: Transition.cupertino,
+      name: root,
+      page: RootPage.new,
+      binding: RootBinding(),
     ),
     GetPage(
-      name: routeExampleHomeScreen,
-      page: () => ExampleHomePage(),
+      name: tabbar,
+      page: TabbarPage.new,
+      binding: TabbarBinding(),
+    ),
+    // Authentication
+    GetPage(
+      name: LA10,
+      page: LandingPage.new,
+      binding: LandingBinding(),
+    ),
+    GetPage(
+      name: LO10,
+      page: LoginPage.new,
+      binding: LoginBinding(),
+    ),
+    GetPage(
+      name: LO20,
+      page: ForgotPasswordPage.new,
+      binding: ForgotPasswordBinding(),
+    ),
+    GetPage(
+      name: RE10,
+      page: RegisterPage.new,
+      binding: RegisterBinding(),
+    ),
+    // Authentication
+    GetPage(
+      name: SE10,
+      page: ChangeLanguage.new,
+      binding: ChangeLanguageBinding(),
+    ),
+    GetPage(
+      name: EX10,
+      page: ExampleHomePage.new,
       binding: ExampleHomeBinding(),
-      transition: Transition.cupertino,
-      children: [
-        GetPage(
-          name: routeDetailScreen,
-          page: () => ExampleHomeDetailPage(),
-          binding: ExampleHomeDetailBinding(),
-          transition: Transition.cupertino,
-        ),
-      ],
+    ),
+    GetPage(
+      name: EX20,
+      page: ExampleHomeListPage.new,
+      binding: ExampleHomeListBinding(),
     ),
   ];
-}
 
-class AuthenMiddleware extends GetMiddleware {
-  @override
-  RouteSettings? redirect(String? route, {Object? arguments}) {
-    final isLogged = Get.find<AuthService>().hasLogin();
-    return isLogged
-        ? null
-        : RouteSettings(
-            name: AppRoute.routeExampleLoginScreen,
-            arguments: arguments,
-          );
+  static GetPage? getPage(String name) {
+    return generateGetPages.firstWhereOrNull((e) => e.name == name);
   }
 }

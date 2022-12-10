@@ -4,11 +4,62 @@ analyzer:
   exclude:
     - "**/*.g.dart"
     - "**/*.reflectable.dart"
-    - "lib/l10n/generated/**/*.dart"
+    - lib/l10n/generated/**
+
+dart_code_metrics:
+  anti-patterns:
+  #    - long-method
+  #    - long-parameter-list
+  metrics:
+    # cyclomatic-complexity: 20
+    maximum-nesting-level: 8
+    #    number-of-parameters: 4
+    # source-lines-of-code: 50
+  metrics-exclude:
+    - lib/l10n/generated/**
+    - lib/utils/gen/**
+  rules-exclude:
+    - lib/l10n/generated/**
+    - lib/utils/gen/**
+  rules:
+    - member-ordering
+    - always-remove-listener
+    - no-boolean-literal-compare
+    - newline-before-return
+    # - no-empty-block
+    - no-magic-number:
+      allowed: [-1, 0, 1, 2, 3]
+    - no-equal-then-else
+    # - no-object-declaration
+    - prefer-conditional-expressions
+    # - prefer-extracting-callbacks
+    - prefer-trailing-comma
+    # - avoid-dynamic
+    #    - avoid-unused-parameters
+    - double-literal-format
+    - prefer-first
+    - prefer-last
+    - prefer-correct-edge-insets-constructor
+    - avoid-unnecessary-setstate
+    - prefer-single-widget-per-file:
+        ignore-private-widgets: true
+    # - prefer-const-border-radius
+    - avoid-wrapping-in-padding
+    - avoid-shrink-wrap-in-lists
+    - avoid-returning-widgets
+    - avoid-expanded-as-spacer
+    - avoid-nested-conditional-expressions:
+        acceptable-level: 8
+        ignored-annotations:
+          - allowedAnnotation
 
 linter:
   rules:
     avoid_print: true
+    avoid_relative_lib_imports: true
+    avoid_returning_null_for_future: true
+    avoid_slow_async_io: true
+    avoid_web_libraries_in_flutter: true
     annotate_overrides: true
     avoid_empty_else: true
     avoid_null_checks_in_equality_operators: true
@@ -60,6 +111,14 @@ linter:
     unrelated_type_equality_checks: true
     valid_regexps: true
     close_sinks: true
+    prefer_single_quotes: true
+    avoid_escaping_inner_quotes: true
+    null_check_on_nullable_type_parameter: true
+    prefer_if_null_operators: true
+    comment_references: true
+    diagnostic_describe_all_properties: false
+    literal_only_boolean_expressions: true
+    no_logic_in_create_state: true
     unawaited_futures: false
     avoid_function_literals_in_foreach_calls: false
     avoid_renaming_method_parameters: false

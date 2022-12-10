@@ -8,7 +8,7 @@ if (localPropertiesFile.exists()) {
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+    throw new GradleException('Flutter SDK not found. Define location with flutter.sdk in the local.properties file.')
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
@@ -24,28 +24,90 @@ if (flutterVersionName == null) {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    // TODO: recheck remove
+    lintOptions {
+        disable 'InvalidPackage'
+        // https://stackoverflow.com/a/66486972
+        checkReleaseBuilds false
+    }
+
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.int_quest"
-        minSdkVersion 16
-        targetSdkVersion 30
+        minSdkVersion 23
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        versionName "${flutterVersionName}"
+    }
+
+    signingConfigs {
+        debug {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storePassword 'android'
+            storeFile file('../keystore/debug/debug.keystore')
+        }
+        release {
+            keyAlias 'jbbaseUploadKey'
+            keyPassword 'jbbaserelease2022'
+            storePassword 'jbbaserelease2022'
+            storeFile file('../keystore/release/release.jks')
+        }
     }
 
     buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+        ndkVersion '25.1.8937393' 
+        debug {
             signingConfig signingConfigs.debug
+            minifyEnabled false
+        }
+        release {
+            signingConfig signingConfigs.release
+            shrinkResources true
+            minifyEnabled true
+            useProguard true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            ndk {
+                debugSymbolLevel 'FULL'
+            }
+        }
+    }
+
+    flavorDimensions 'app'
+    
+    productFlavors {
+        qa {
+            dimension 'app'
+            applicationId 'com.jbbase.qa'
+            resValue 'string', 'app_name', '[QA]JBBase'
+        }
+
+        stg {
+            dimension 'app'
+            applicationId 'com.jbbase.stg'
+            resValue 'string', 'app_name', '[STG]JBBase'
+        }
+
+        prod {
+            dimension 'app'
+            applicationId 'com.jbbase.prod'
+            resValue 'string', 'app_name', 'JBBase'
         }
     }
 }
@@ -56,4 +118,15 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:30.4.1')
+
+    // Declare the dependencies for the Firebase Cloud Messaging and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-core'
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-analytics'
 }
+
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'

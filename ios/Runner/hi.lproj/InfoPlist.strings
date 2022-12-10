@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by JB on 10/18/22.
+  
+*/
+"NSCameraUsageDescription" = "कृपया को सेटिंग पर कैमरा एक्सेस करने दें";
+"NSPhotoLibraryUsageDescription" = "अवतार अपलोड करने के लिए इस ऐप को फोटो एक्सेस की आवश्यकता है।";

@@ -1,0 +1,4 @@
+gem 'fastlane-plugin-appcenter'
+gem 'fastlane-plugin-versioning'
+gem 'fastlane-plugin-delete_files'
+gem 'fastlane-plugin-json_auth'

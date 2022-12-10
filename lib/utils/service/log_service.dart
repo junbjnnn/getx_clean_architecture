@@ -3,7 +3,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:logger/logger.dart';
 
 class L {
-  static final LogService _logService = Get.find();
+  static final LogServiceImpl _logService = Get.find();
 
   static void verbose(dynamic message) {
     _logService.logger.v(message);
@@ -30,7 +30,7 @@ class L {
   }
 }
 
-class LogService extends GetxService {
+class LogServiceImpl extends GetxService {
   final logger = Logger(
     printer: MyPrinter(),
   );
@@ -51,6 +51,7 @@ class MyPrinter extends LogPrinter {
     final icon = levelEmojis[event.level]!;
     final msg = event.message;
     final time = Jiffy(DateTime.now()).format('h:mm:ss a');
+
     return ['[$time] $icon $msg'];
   }
 }

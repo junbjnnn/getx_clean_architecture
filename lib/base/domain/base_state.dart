@@ -1,12 +1,24 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
+import 'package:flutter/material.dart';
+import 'package:get/state_manager.dart';
 
 int inititalPage = 1;
 
 class BaseState<T> extends GetxController with StateMixin<T> {
   int? nextPage = inititalPage;
   T? data;
+
+  bool get isLoading {
+    return status.isLoading;
+  }
+
+  bool get isSuccess {
+    return status.isSuccess;
+  }
+
+  bool get isError {
+    return status.isError;
+  }
 
   BaseState() {
     change(null, status: RxStatus.empty());
@@ -16,8 +28,7 @@ class BaseState<T> extends GetxController with StateMixin<T> {
     this.nextPage = nextPage ?? this.nextPage;
 
     if (status.isLoadingMore) {
-      change(((value as List<dynamic>) + (data as List<dynamic>) as T),
-          status: RxStatus.success());
+      change(((value as List<dynamic>) + (data as List<dynamic>) as T), status: RxStatus.success());
     } else {
       change(data, status: RxStatus.success());
     }
@@ -51,21 +62,22 @@ class BaseState<T> extends GetxController with StateMixin<T> {
     return obx(
       (value) {
         if (status.isSuccess) {
-          return onSuccess != null ? onSuccess(value) : const SizedBox.shrink();
+          return onSuccess != null ? onSuccess(value) : onEmpty ?? const SizedBox.shrink();
         }
         if (status.isLoadingMore) {
           return onLoadingMore ?? const SizedBox.shrink();
         }
+
         // other custom state
         return const SizedBox.shrink();
       },
       onError: onError ??
           (_) {
-            return const SizedBox.shrink();
+            return onEmpty ?? const SizedBox.shrink();
           },
       onLoading: onLoading ??
           const Center(
-            child: CupertinoActivityIndicator(),
+            child: CupertinoActivityIndicator(color: Colors.black),
           ),
       onEmpty: onEmpty,
     );

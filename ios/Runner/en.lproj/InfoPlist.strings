@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by JB on 10/18/22.
+  
+*/
+"NSCameraUsageDescription" = "This app needs camera access to scan QR code.";
+"NSPhotoLibraryUsageDescription" = "This app needs photo access to upload avatar.";

@@ -1,0 +1,40 @@
+require './../../common/Managers/VersioningManager'
+
+versioning_manager = VersioningManager.new(fastlane: self)
+
+default_platform(:android)
+
+platform :android do
+  desc "build android apk"
+  lane :build_sample do |options|
+    ## before install ##
+    init_flutter()
+
+    ## bump version ##
+    versioning_manager.bump_app_version_android(
+      api_token: options[:appcenter_api_token],
+      owner_name: options[:appcenter_owner_name],
+      app_name: options[:appcenter_app_name_android]
+    )
+
+    ## build apk ##
+    sh("cd ../../ && fvm flutter build apk --release --flavor #{options[:env]}")
+
+    ## upload to appcenter ##
+    appcenter_upload(
+      app_name: options[:appcenter_app_name_android],
+      api_token: options[:appcenter_api_token],
+      owner_name: options[:appcenter_owner_name],
+      destinations: "Public",
+      destination_type: "group",
+      file: "./../build/app/outputs/apk/#{options[:env]}/release/app-#{options[:env]}-release.apk",
+      notify_testers: true,
+      release_notes: options[:release_notes]
+    )
+  end
+
+  desc "Init flutter"
+  private_lane :init_flutter do
+    sh("cd ./../../common/codedeploy_scripts && bash before_install.sh")
+  end
+end
