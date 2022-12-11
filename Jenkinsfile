@@ -35,7 +35,7 @@ def configuration = [vaultUrl: 'https://vault...com',  vaultCredentialId: 'VAULT
 pipeline {
   agent {
     node {
-      label 'edsdk-macos';
+      label 'label';
     }
   }
 

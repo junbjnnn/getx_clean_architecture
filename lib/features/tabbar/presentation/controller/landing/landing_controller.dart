@@ -19,13 +19,13 @@ class LandingController extends BaseController {
   }
 
   void toTermsOfService() async {
-    if (!await launchUrlString(AppLink.termsOfService)) {
+    if (!await launchUrlString(AppLinkConstants.termsOfService)) {
       showErrorDialog();
     }
   }
 
   void toPrivacyPolicy() async {
-    if (!await launchUrlString(AppLink.privacyPolicy)) {
+    if (!await launchUrlString(AppLinkConstants.privacyPolicy)) {
       showErrorDialog();
     }
   }

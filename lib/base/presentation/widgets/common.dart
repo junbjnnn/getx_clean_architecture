@@ -398,8 +398,8 @@ Widget commonTextField(
 
 @swidget
 Widget loadingWidget() {
-  return const Center(
-    child: CupertinoActivityIndicator(color: ColorName.black000),
+  return Center(
+    child: CupertinoActivityIndicator(color: Get.context?.theme.indicatorColor),
   );
 }
 

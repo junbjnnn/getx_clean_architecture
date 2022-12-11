@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:jbbase_app/base/presentation/presentation.dart';
+import 'package:jbbase_app/features/authentication/authentication.dart';
 
 import '../../controllers/example_list/example_home_list_controller.dart';
 
@@ -10,17 +12,16 @@ class ExampleHomeListPage extends BaseGetView<ExampleHomeListController> {
         title: 'Home list page example',
         leading: null,
       ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton(
-              onPressed: controller.printUser,
-              child: const Text('print user box'),
+      body: CommonPagedListView<User>(
+        pagingController: controller.pagingController,
+        itemBuilder: (context, user, index) {
+          return SizedBox(
+            height: 100,
+            child: Center(
+              child: Text(user.email),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

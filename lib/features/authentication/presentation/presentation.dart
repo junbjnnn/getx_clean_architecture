@@ -2,12 +2,6 @@
 
 library presentation;
 
-export '../../tabbar/presentation/controller/landing/landing_binding.dart';
-export '../../tabbar/presentation/controller/landing/landing_controller.dart';
-export '../../tabbar/presentation/controller/root/root_binding.dart';
-export '../../tabbar/presentation/controller/root/root_controller.dart';
-export '../../tabbar/presentation/views/landing/landing_page.dart';
-export '../../tabbar/presentation/views/root/root_page.dart';
 export 'controllers/change_language/change_language_binding.dart';
 export 'controllers/change_language/change_language_controller.dart';
 export 'controllers/forgot_password/forgot_password_binding.dart';

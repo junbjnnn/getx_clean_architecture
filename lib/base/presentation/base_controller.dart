@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:jbbase_app/base/data/app_error.dart';
 import 'package:jbbase_app/l10n/generated/l10n.dart';
 
+import '../domain/dispose_bag.dart';
+
 export 'package:get/get_rx/get_rx.dart';
 export 'package:get/instance_manager.dart';
 
@@ -13,6 +15,7 @@ export '../../utils/service/log_service.dart';
 export '../data/app_error.dart';
 export '../domain/base_observer.dart';
 export '../domain/base_state.dart';
+export '../domain/dispose_bag.dart';
 
 class BaseController<T> extends SuperController {
   late Future<OkCancelResult> Function(AppException e) showRetryError;
@@ -30,6 +33,8 @@ class BaseController<T> extends SuperController {
     String? cancelText,
   }) showOkCancelDialog;
 
+  final disposeBag = DisposeBag();
+
   T get input => Get.arguments;
 
   @override
@@ -39,6 +44,7 @@ class BaseController<T> extends SuperController {
 
   @override
   void onClose() {
+    disposeBag.dispose();
     super.onClose();
   }
 

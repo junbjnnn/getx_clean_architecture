@@ -28,14 +28,6 @@ class TabbarController extends BaseController with GetSingleTickerProviderStateM
     final tabType = TabType.values[index];
 
     // switch (tabType) {
-    //   case TabType.notification:
-    //     NotificationListBinding().dependencies();
-    //     notificationListController = Get.find<NotificationListController>();
-    //     break;
-    //   case TabType.coupon:
-    //     YourItemsBinding().dependencies();
-    //     yourItemsController = Get.find<YourItemsController>();
-    //     break;
     //   default:
     // }
   }

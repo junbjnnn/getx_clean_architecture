@@ -18,7 +18,7 @@ class AuthRepoImpl extends BaseRepo implements AuthRepo {
   @override
   Future<void> loginWithEmail(EmailPasswordRequest request) async {
     // final tokenModel = await _authAPI.loginWithEmail(request);
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
     final tokenModel = TokenModel()..accessToken = 'xxx';
     if (tokenModel.accessToken == null) {
       throw AppException(AppExceptionType.unauthorized, 'Invalid access token!');

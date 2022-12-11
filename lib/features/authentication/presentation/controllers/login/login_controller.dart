@@ -26,13 +26,8 @@ class LoginController extends BaseController {
     super.onInit();
     emailTextEditingController.text = 'test@gmail.com';
     passwordTextEditingController.text = '12345678';
-  }
-
-  @override
-  void onClose() {
-    emailTextEditingController.dispose();
-    passwordTextEditingController.dispose();
-    super.onClose();
+    emailTextEditingController.disposeBy(disposeBag);
+    passwordTextEditingController.disposeBy(disposeBag);
   }
 
   void onTapResetPassword() {

@@ -1,16 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
 import 'package:get/get.dart';
 
 part 'widgets.g.dart';
-
-@swidget
-Widget loadingWidget() {
-  return const Center(
-    child: CupertinoActivityIndicator(),
-  );
-}
 
 @swidget
 Widget successWidget({String? value, double height = 100}) {
