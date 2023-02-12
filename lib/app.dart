@@ -3,7 +3,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:jbbase_app/features/authentication/data/providers/local/user_storage.dart';
+import 'package:jbbase_app/features/authentication/data/providers/local/user_storage_ex.dart';
 
 import 'base/data/local/local_storage.dart';
 import 'l10n/generated/l10n.dart';
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       navigatorKey: Catcher.navigatorKey,
-      title: 'Money Note',
+      title: 'GetX Clean Architecture',
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         S.delegate,

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../../base/base.dart';
 import '../../features/authentication/authentication.dart';
+import '../../features/example/example.dart';
 import '../service/auth_service.dart';
 import '../service/connectivity_service.dart';
 import '../service/permission_service.dart';
@@ -18,6 +19,7 @@ class AppBinding extends Bindings {
 
   void injectStorageProvider() {
     Get.put(LocalStorage(), permanent: true);
+    Get.put(UserStorage());
   }
 
   void injectNetworkProvider() {
@@ -74,6 +76,6 @@ class AppBinding extends Bindings {
   }
 
   void injectUseCase() {
-    Get.lazyPut(() => GetUserDataUseCase(Get.find(), Get.find()), fenix: true);
+    Get.put(UserUseCase());
   }
 }

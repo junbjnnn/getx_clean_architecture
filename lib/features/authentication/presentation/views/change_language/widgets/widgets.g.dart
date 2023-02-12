@@ -7,9 +7,12 @@ part of 'widgets.dart';
 // **************************************************************************
 
 class ChangeLanguageItem extends StatelessWidget {
-  const ChangeLanguageItem(
-      {Key? key, required this.language, this.isSelect = false, this.onPressed})
-      : super(key: key);
+  const ChangeLanguageItem({
+    Key? key,
+    required this.language,
+    this.isSelect = false,
+    this.onPressed,
+  }) : super(key: key);
 
   final String language;
 
@@ -19,5 +22,8 @@ class ChangeLanguageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext _context) => changeLanguageItem(
-      language: language, isSelect: isSelect, onPressed: onPressed);
+        language: language,
+        isSelect: isSelect,
+        onPressed: onPressed,
+      );
 }

@@ -75,7 +75,6 @@ linter:
     empty_statements: true
     hash_and_equals: true
     implementation_imports: true
-    invariant_booleans: true
     iterable_contains_unrelated_type: true
     list_remove_unrelated_type: true
     no_adjacent_strings_in_list: true

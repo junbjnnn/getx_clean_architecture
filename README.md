@@ -25,13 +25,13 @@ $ git clone ...
 $ cd ...
 # $ find . -name '*.dart' -print0 | xargs -0 sed -i "" "s/jbbase_app/something/g"
 
-$ fvm install 3.3.9
-$ fvm use 3.3.9
+$ fvm install 3.7.3
+$ fvm use 3.7.3
 $ fvm flutter --version
-Flutter 3.3.9 • channel stable • https://github.com/flutter/flutter.git
-Framework • revision b8f7f1f986 (2 weeks ago) • 2022-11-23 06:43:51 +0900
-Engine • revision 8f2221fbef
-Tools • Dart 2.18.5 • DevTools 2.15.0
+Flutter 3.7.3 • channel stable • https://github.com/flutter/flutter.git
+Framework • revision 9944297138 (3 days ago) • 2023-02-08 15:46:04 -0800
+Engine • revision 248290d6d5
+Tools • Dart 2.19.2 • DevTools 2.20.1
 $ fvm flutter pub global activate index_generator
 
 $ fvm flutter pub get

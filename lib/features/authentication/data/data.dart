@@ -6,6 +6,7 @@ export 'models/force_update_model.dart';
 export 'models/token_model.dart';
 export 'models/user_model.dart';
 export 'providers/local/user_storage.dart';
+export 'providers/local/user_storage_ex.dart';
 export 'providers/remote/api/auth_api.dart';
 export 'providers/remote/api/refresh_token_api.dart';
 export 'providers/remote/api/user_api.dart';

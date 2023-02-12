@@ -1,19 +1,15 @@
 import 'package:jbbase_app/base/domain/base_usecase.dart';
 
 import '../../repositories/auth_repo.dart';
-import 'get_master_data_uc.dart';
 import 'register_fcm_token_uc.dart';
 
 class LoginWithEmailUseCase extends UseCaseIO<EmailPasswordRequest, void> {
   final AuthRepo _authRepo;
 
-  final GetMasterDataUseCase _getMasterDataUseCase;
-
   final RegisterFcmTokenUseCase _registerFcmTokenUseCase;
 
   LoginWithEmailUseCase(
     this._authRepo,
-    this._getMasterDataUseCase,
     this._registerFcmTokenUseCase,
   );
 

@@ -1,8 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:get/get_navigation/src/router_report.dart';
 import 'package:jbbase_app/utils/service/log_service.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class AppNavigatorObserver extends GetObserver {
   static const _enableLog = true;
@@ -31,9 +29,6 @@ class AppNavigatorObserver extends GetObserver {
     if (_enableLog) {
       L.info('didRemove ${route.settings.name}, back to ${previousRoute?.settings.name}');
     }
-    if (route is SwipeablePageRoute) {
-      RouterReportManager.reportRouteDispose(route);
-    }
   }
 
   @override
@@ -42,20 +37,21 @@ class AppNavigatorObserver extends GetObserver {
     if (_enableLog) {
       L.info('didReplace ${oldRoute?.settings.name} by ${newRoute?.settings.name}');
     }
-    if (oldRoute is GetPageRoute) {
-      RouterReportManager.reportRouteDispose(oldRoute);
-    }
   }
 
   @override
   void didStartUserGesture(Route route, Route? previousRoute) {
     super.didStartUserGesture(route, previousRoute);
-    L.info('didStartUserGesture ${route.settings.name} previous ${previousRoute?.settings.name}');
+    if (_enableLog) {
+      L.info('didStartUserGesture ${route.settings.name} previous ${previousRoute?.settings.name}');
+    }
   }
 
   @override
   void didStopUserGesture() {
     super.didStopUserGesture();
-    L.info('didStopUserGesture');
+    if (_enableLog) {
+      L.info('didStopUserGesture');
+    }
   }
 }

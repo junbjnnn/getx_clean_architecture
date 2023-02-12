@@ -4,17 +4,13 @@ import 'package:jbbase_app/features/example/presentation/presentation.dart';
 import 'package:jbbase_app/utils/service/auth_service.dart';
 import 'package:jbbase_app/utils/service/connectivity_service.dart';
 
-import '../../../../authentication/domain/domain.dart';
-
 class RootController extends BaseController {
   final AuthService _authService;
   final ConnectivityService _connectivityService;
-  final GetMasterDataUseCase _getMasterDataUseCase;
 
   RootController(
     this._authService,
     this._connectivityService,
-    this._getMasterDataUseCase,
   );
 
   @override
@@ -40,6 +36,10 @@ class RootController extends BaseController {
   }
 
   void _handleAuthenticated() {
+    N.toHome(input: ExampleHomeInput('u', 'p'));
+    Future.delayed(const Duration(milliseconds: 100), FlutterNativeSplash.remove);
+
+    /*
     _getMasterDataUseCase.execute(
       observer: Observer(
         onSuccess: (_) async {
@@ -51,6 +51,7 @@ class RootController extends BaseController {
         },
       ),
     );
+    */
   }
 
   void _handleUnauthenticated() {

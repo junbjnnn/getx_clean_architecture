@@ -1,5 +1,5 @@
 import 'package:jbbase_app/base/base.dart';
-import 'package:jbbase_app/features/authentication/data/providers/local/user_storage.dart';
+import 'package:jbbase_app/features/authentication/data/providers/local/user_storage_ex.dart';
 import 'package:jbbase_app/utils/extension/language_type.dart';
 
 class ChangeLanguageController extends BaseController {

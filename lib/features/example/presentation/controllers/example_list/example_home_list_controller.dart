@@ -1,18 +1,21 @@
 import 'package:jbbase_app/base/base.dart';
 import 'package:jbbase_app/features/authentication/authentication.dart';
-import 'package:jbbase_app/features/example/domain/usecases/example/get_users_data_uc.dart';
+import 'package:jbbase_app/features/example/example.dart';
 
 class ExampleHomeListController extends BaseController {
   final fetchDataState = BaseState();
 
-  final GetUsersDataUseCase _getUsersDataUseCase;
+  // If u already put this usecase, just call find to get, don't need to inject via binding
+  final UserUseCase _userUseCase;
+
+  GetUsersDataUseCase get _getUsersDataUseCase => _userUseCase.getUsersDataUseCase;
 
   CommonPagingController<User> get pagingController => _pagingController;
 
   final _pagingController = CommonPagingController<User>();
   final _users = <User>[];
 
-  ExampleHomeListController(this._getUsersDataUseCase);
+  ExampleHomeListController(this._userUseCase);
 
   @override
   void onInit() {

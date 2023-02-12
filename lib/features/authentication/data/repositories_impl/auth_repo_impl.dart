@@ -1,10 +1,11 @@
 import 'package:jbbase_app/base/data/app_error.dart';
 import 'package:jbbase_app/base/domain/base_repo.dart';
+import 'package:jbbase_app/features/authentication/data/providers/local/user_storage_ex.dart';
 import 'package:jbbase_app/utils/service/log_service.dart';
 
 import '../../domain/repositories/auth_repo.dart';
 
-class AuthRepoImpl extends BaseRepo implements AuthRepo {
+class AuthRepoImpl extends AuthRepo {
   final LocalStorage _localStorage = Get.find();
   final AuthAPI _authAPI = Get.find();
   final UserAPI _userAPI = Get.find();

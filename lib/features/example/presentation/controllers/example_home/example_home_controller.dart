@@ -1,12 +1,18 @@
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:jbbase_app/base/base.dart';
 import 'package:jbbase_app/features/authentication/authentication.dart';
+import 'package:jbbase_app/features/example/domain/usecases/example/user_use_case.dart';
+import 'package:jbbase_app/utils/service/auth_service.dart';
 
 import 'example_home_input.dart';
 
 class ExampleHomeController extends BaseController<ExampleHomeInput> {
   late Rx<String> username;
   late Rx<String> password;
+
+  LocalStorage get _localStorage => Get.find<LocalStorage>();
+  UserUseCase get _userUseCase => Get.find<UserUseCase>();
 
   @override
   void onInit() {
@@ -27,6 +33,7 @@ class ExampleHomeController extends BaseController<ExampleHomeInput> {
   }
 
   void backToLogin() {
+    Get.find<AuthService>().logout();
     N.toLandingPage();
   }
 
@@ -37,11 +44,11 @@ class ExampleHomeController extends BaseController<ExampleHomeInput> {
   void switchTheme() {
     final newThemeMode = Get.isDarkMode ? ThemeMode.light : ThemeMode.dark;
     Get.changeThemeMode(newThemeMode);
-    Get.find<LocalStorage>().saveThemeMode(newThemeMode);
+    _localStorage.saveThemeMode(newThemeMode);
   }
 
   void printUser() async {
-    final box = await Hive.openBox<UserModel>('user');
+    final box = await Hive.openBox<UserModel>('UserModel');
     for (var key in box.keys) {
       L.debug('key: $key, value: ${box.get(key)}');
       L.debug(UserMapper().mappingEntity(box.get(key)!));
@@ -49,6 +56,7 @@ class ExampleHomeController extends BaseController<ExampleHomeInput> {
   }
 
   void addUser() async {
+    /*
     final box = await Hive.openBox<UserModel>('user');
     // await box.clear();
 
@@ -70,12 +78,27 @@ class ExampleHomeController extends BaseController<ExampleHomeInput> {
     // box.put('someKey', person);
     L.debug("Lisa's second key: ${person.key}");
     L.debug('Number of persons: ${box.length}');
+    */
+    _userUseCase.addUseCase.execute(
+      observer: Observer(
+        onSubscribe: () {
+          print('onSubscribe');
+        },
+        onCompleted: () {
+          print('onCompleted');
+        },
+        onSuccess: (i) {
+          print('onSuccess $i');
+        },
+      ),
+      input: User()
+        ..name = 'Dave'
+        ..age = 22,
+    );
   }
 
   void removeUser() async {
-    final box = await Hive.openBox<UserModel>('user');
-
-    L.debug(box.deleteAt(0));
+    _userUseCase.clearUseCase.execute();
   }
 
   void testLog() {

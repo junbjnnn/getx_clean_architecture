@@ -9,7 +9,10 @@ part of 'refresh_token_api.dart';
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
 class _RefreshTokenAPI implements RefreshTokenAPI {
-  _RefreshTokenAPI(this._dio, {this.baseUrl});
+  _RefreshTokenAPI(
+    this._dio, {
+    this.baseUrl,
+  });
 
   final Dio _dio;
 
@@ -21,12 +24,19 @@ class _RefreshTokenAPI implements RefreshTokenAPI {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = {'refresh_token': refreshToken};
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<TokenModel>(
-            Options(method: 'POST', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/token',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<TokenModel>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/token',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = JsonMapper.fromMap<TokenModel>(_result.data!)!;
     return value;
   }

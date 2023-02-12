@@ -1,8 +1,8 @@
 #!bin/bash -e
 
 cd ./../.. #dir: jbbase-app/
-fvm install 3.3.9
-fvm use 3.3.9
+fvm install 3.7.3
+fvm use 3.7.3
 fvm flutter pub get
 # fvm flutter pub global activate index_generator 
 

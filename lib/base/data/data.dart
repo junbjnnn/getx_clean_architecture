@@ -4,7 +4,9 @@ library data;
 
 export 'app_error.dart';
 export 'base_mapper.dart';
+export 'local/base_hive_storage.dart';
 export 'local/local_storage.dart';
+export 'model/base_hive_object.dart';
 export 'model/common/error_field.dart';
 export 'model/common/error_response.dart';
 export 'model/converter/custom_datetime_converter.dart';

@@ -1,10 +1,152 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
 import '../../utils/service/log_service.dart';
 import '../data/app_error.dart';
 import 'base_observer.dart';
+import 'base_repo.dart';
+
+abstract class BaseHiveUseCase<E, Repo extends BaseHiveCRUDRepo<E>> extends GetxService {
+  AddUseCase<E, Repo> get addUseCase => Get.find();
+  AddAllUseCase<E, Repo> get addAllUseCase => Get.find();
+  GetByIdUseCase<E, Repo> get getByIdUseCase => Get.find();
+  GetAllUseCase<E, Repo> get getAllUseCase => Get.find();
+  UpdateUseCase<E, Repo> get updateUseCase => Get.find();
+  UpdateAllUseCase<E, Repo> get updateAllUseCase => Get.find();
+  DeleteUseCase<E, Repo> get deleteUseCase => Get.find();
+  DeleteAllUseCase<E, Repo> get deleteAllUseCase => Get.find();
+  ClearUseCase<Repo> get clearUseCase => Get.find();
+  WatchUseCase<Repo> get watchUseCase => Get.find();
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    Get.lazyPut(() => AddUseCase<E, Repo>(Get.find<Repo>()), fenix: true);
+    Get.lazyPut(() => AddAllUseCase<E, Repo>(Get.find<Repo>()), fenix: true);
+    Get.lazyPut(() => GetByIdUseCase<E, Repo>(Get.find<Repo>()), fenix: true);
+    Get.lazyPut(() => GetAllUseCase<E, Repo>(Get.find<Repo>()), fenix: true);
+    Get.lazyPut(() => UpdateUseCase<E, Repo>(Get.find<Repo>()), fenix: true);
+    Get.lazyPut(() => UpdateAllUseCase<E, Repo>(Get.find<Repo>()), fenix: true);
+    Get.lazyPut(() => DeleteUseCase<E, Repo>(Get.find<Repo>()), fenix: true);
+    Get.lazyPut(() => DeleteAllUseCase<E, Repo>(Get.find<Repo>()), fenix: true);
+    Get.lazyPut(() => ClearUseCase<Repo>(Get.find<Repo>()), fenix: true);
+    Get.lazyPut(() => WatchUseCase<Repo>(Get.find<Repo>()), fenix: true);
+  }
+}
+
+class AddUseCase<I, Repo extends BaseCRUDRepo<I>> extends UseCaseIO<I, int> {
+  final Repo repo;
+
+  AddUseCase(this.repo);
+
+  @override
+  Future<int> build(I i) {
+    return repo.add(i);
+  }
+}
+
+class AddAllUseCase<I, Repo extends BaseCRUDRepo<I>> extends UseCaseIO<List<I>, List<int>> {
+  final Repo repo;
+
+  AddAllUseCase(this.repo);
+
+  @override
+  Future<List<int>> build(List<I> i) {
+    return repo.addAll(i);
+  }
+}
+
+class GetByIdUseCase<O, Repo extends BaseCRUDRepo<O>> extends UseCaseIO<int, O?> {
+  final Repo repo;
+
+  GetByIdUseCase(this.repo);
+
+  @override
+  Future<O?> build(int i) {
+    return repo.getById(i);
+  }
+}
+
+class GetAllUseCase<O, Repo extends BaseCRUDRepo<O>> extends UseCase<List<O>> {
+  final Repo repo;
+
+  GetAllUseCase(this.repo);
+
+  @override
+  Future<List<O>> build() {
+    return repo.getAll();
+  }
+}
+
+class UpdateUseCase<I, Repo extends BaseCRUDRepo<I>> extends UseCaseIO<I, void> {
+  final Repo repo;
+
+  UpdateUseCase(this.repo);
+
+  @override
+  Future<void> build(I i) {
+    return repo.update(i);
+  }
+}
+
+class UpdateAllUseCase<I, Repo extends BaseCRUDRepo<I>> extends UseCaseIO<List<I>, void> {
+  final Repo repo;
+
+  UpdateAllUseCase(this.repo);
+
+  @override
+  Future<void> build(List<I> i) {
+    return repo.updateAll(i);
+  }
+}
+
+class DeleteUseCase<I, Repo extends BaseCRUDRepo<I>> extends UseCaseIO<I, void> {
+  final Repo repo;
+
+  DeleteUseCase(this.repo);
+
+  @override
+  Future<void> build(I i) {
+    return repo.delete(i);
+  }
+}
+
+class DeleteAllUseCase<I, Repo extends BaseCRUDRepo<I>> extends UseCaseIO<List<I>, void> {
+  final Repo repo;
+
+  DeleteAllUseCase(this.repo);
+
+  @override
+  Future<void> build(List<I> i) {
+    return repo.deleteAll(i);
+  }
+}
+
+class ClearUseCase<Repo extends BaseCRUDRepo> extends UseCase<void> {
+  final Repo repo;
+
+  ClearUseCase(this.repo);
+
+  @override
+  Future<void> build() {
+    return repo.clear();
+  }
+}
+
+class WatchUseCase<Repo extends BaseHiveCRUDRepo> extends UseCaseIO<dynamic, Stream<BoxEvent>> {
+  final Repo repo;
+
+  WatchUseCase(this.repo);
+
+  @override
+  Future<Stream<BoxEvent>> build(dynamic key) {
+    return Future.value(repo.watch(key: key));
+  }
+}
 
 abstract class UseCase<T> extends _UseCase<void, T> {
   Future<void> execute({Observer<T>? observer}) async {

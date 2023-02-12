@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:get/instance_manager.dart';
+import 'package:jbbase_app/features/authentication/data/providers/local/user_storage_ex.dart';
 import 'package:jbbase_app/features/authentication/domain/repositories/auth_repo.dart';
 import 'package:jbbase_app/utils/service/auth_service.dart';
 import 'package:jbbase_app/utils/service/log_service.dart';

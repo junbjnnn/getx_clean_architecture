@@ -1,7 +1,7 @@
+import 'package:get/get.dart';
 import 'package:jbbase_app/base/data/local/local_storage.dart';
 import 'package:jbbase_app/features/authentication/domain/repositories/auth_repo.dart';
 import 'package:jbbase_app/utils/config/app_navigation.dart';
-import 'package:get/get.dart';
 
 abstract class AuthService extends GetxService {
   String get email;

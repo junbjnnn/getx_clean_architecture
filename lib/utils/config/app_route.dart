@@ -36,12 +36,14 @@ class AppRoute {
       name: tabbar,
       page: TabbarPage.new,
       binding: TabbarBinding(),
+      transition: Transition.noTransition,
     ),
     // Authentication
     GetPage(
       name: LA10,
       page: LandingPage.new,
       binding: LandingBinding(),
+      transition: Transition.noTransition,
     ),
     GetPage(
       name: LO10,
